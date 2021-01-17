@@ -47,7 +47,7 @@ namespace DesignPatternSamples.WebAPI
             services.AddDependencyInjection()
                 .AddAutoMapper();
 
-            /*Cache distribuído FAKE*/
+            /*Cache distribuï¿½do FAKE*/
             services.AddDistributedMemoryCache();
             
             services.AddControllers();
@@ -108,7 +108,14 @@ namespace DesignPatternSamples.WebAPI
                 .AddTransient<DetranSPVerificadorDebitosRepository>()
                 .AddTransient<DetranRJVerificadorDebitosRepository>()
                 .AddTransient<DetranRSVerificadorDebitosRepository>()
-                .AddScoped<ExceptionHandlingMiddleware>();
+                .AddScoped<ExceptionHandlingMiddleware>()
+                // Pontos
+                .AddTransient<IDetranVerificadorPontosService, DetranVerificadorPontosServices>()
+                .AddSingleton<IDetranVerificadorPontosFactory, DetranVerificadorPontosFactory>()
+                .AddTransient<DetranPEVerificadorPontosRepository>()
+                .AddTransient<DetranRJVerificadorPontosRepository>()
+                .AddTransient<DetranRSVerificadorPontosRepository>()
+                .AddTransient<DetranSPVerificadorPontosRepository>();
         }
 
         public static IServiceCollection AddAutoMapper(this IServiceCollection services)
@@ -130,7 +137,12 @@ namespace DesignPatternSamples.WebAPI
                 .Register("RJ", typeof(DetranRJVerificadorDebitosRepository))
                 .Register("SP", typeof(DetranSPVerificadorDebitosRepository))
                 .Register("RS", typeof(DetranRSVerificadorDebitosRepository));
-
+            app.ApplicationServices.GetService<IDetranVerificadorPontosFactory>()
+                .Register("PE", typeof(DetranPEVerificadorPontosRepository))
+                .Register("RJ", typeof(DetranRJVerificadorPontosRepository))
+                .Register("RS", typeof(DetranRSVerificadorPontosRepository))
+                .Register("SP", typeof(DetranSPVerificadorPontosRepository));
+            
             return app;
         }
     }

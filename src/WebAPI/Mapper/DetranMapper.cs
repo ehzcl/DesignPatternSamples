@@ -9,7 +9,9 @@ namespace DesignPatternSamples.WebAPI.Mapper
         public DetranMapper()
         {
             CreateMap<VeiculoModel, Veiculo>();
+            CreateMap<CarteiraModel, Carteira>();
             CreateMap<DebitoVeiculo, DebitoVeiculoModel>();
+            CreateMap<PontoCarteira, PontoCarteiraModel>();
         }
     }
 }
